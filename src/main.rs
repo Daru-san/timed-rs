@@ -1,3 +1,6 @@
+mod commands;
+
+use commands::{clock, stopwatch, timer};
 use clap::Parser;
 
 #[derive(Parser, Debug)]
