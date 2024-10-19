@@ -1,7 +1,10 @@
 mod commands;
 
 use commands::{clock, stopwatch, timer};
+
 use clap::Parser;
+use core::f64;
+use std::process::exit;
 
 #[derive(Parser, Debug)]
 #[clap(author = "Daru", version, about)]
@@ -22,11 +25,28 @@ struct Args {
 
 fn main() {
     let args = Args::parse();
-    if args.verbose {
+    let enable_timer = !(args.time == 0.0);
+    let enable_stopwatch = args.stopwatch;
+    let enable_verbosity = args.verbose;
+
+    if enable_verbosity {
         println!("DEBUG {args:?}");
     }
-    println!(
-        "Hello {} (from timed-rs)!",
-        args.name.unwrap_or("world".to_string())
-    );
+
+    if enable_timer && enable_stopwatch {
+        println!("Please select one item");
+        exit(0);
+    }
+
+    if enable_timer {
+        timer::run(args.time);
+    }
+
+    if enable_stopwatch {
+        stopwatch::run();
+    }
+
+    if !enable_timer && !enable_stopwatch && !enable_verbosity {
+        clock::run();
+    }
 }
