@@ -11,9 +11,13 @@ struct Args {
     #[arg(short = 'v')]
     verbose: bool,
 
-    /// an optional name to greet
-    #[arg()]
-    name: Option<String>,
+    /// Use the timer
+    #[arg(short, long, default_value = "0.0")]
+    time: f64,
+
+    /// Use the stopwatch
+    #[arg(short, long)]
+    stopwatch: bool,
 }
 
 fn main() {
