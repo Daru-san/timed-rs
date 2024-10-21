@@ -1,3 +1,4 @@
+use chrono::{self, TimeDelta};
 use std::{
     thread::sleep,
     time::{Duration, Instant},
@@ -11,13 +12,16 @@ pub fn run() {
         sleep(Duration::from_millis(1));
     }
 }
+
 fn get_time(millisec: i32) -> String {
     let time: String;
-    let milliseconds = millisec % 100;
-    let seconds = (millisec / 1000) % 60;
-    let min = (millisec / 3600) % 60;
-    let hours = seconds / 3600;
-    time = format!("{:02}:{:02}:{:02}:{:02}", hours, min, seconds, milliseconds);
 
-    return time.to_string();
+    let timer = TimeDelta::milliseconds(millisec.try_into().unwrap());
+    let seconds = timer.num_seconds() % 60;
+    let min = timer.num_minutes() % 60;
+    let hours = timer.num_hours();
+    let mil = timer.num_milliseconds() % 100;
+
+    time = format!("{:02}:{:02}:{:02}:{:02}", hours, min, seconds, mil);
+    return time;
 }
