@@ -27,6 +27,7 @@ fn main() {
     let args = Args::parse();
     let enable_timer = !(args.time == 0.0);
     let enable_stopwatch = args.stopwatch;
+    let enable_clock = !enable_timer && !enable_stopwatch;
     let enable_verbosity = args.verbose;
 
     if enable_verbosity {
@@ -46,7 +47,7 @@ fn main() {
         stopwatch::run();
     }
 
-    if !enable_timer && !enable_stopwatch && !enable_verbosity {
+    if enable_clock {
         clock::run();
     }
 }
