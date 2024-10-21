@@ -30,13 +30,23 @@ fn main() {
     let enable_clock = !enable_timer && !enable_stopwatch;
     let enable_verbosity = args.verbose;
 
-    if enable_verbosity {
-        println!("DEBUG {args:?}");
-    }
-
     if enable_timer && enable_stopwatch {
         println!("Please select one item");
         exit(0);
+    }
+
+    if enable_verbosity {
+        if enable_timer {
+            println!("Timer mode");
+        }
+
+        if enable_stopwatch {
+            println!("Stopwatch mode");
+        }
+
+        if enable_clock {
+            println!("Clock mode");
+        }
     }
 
     if enable_timer {
