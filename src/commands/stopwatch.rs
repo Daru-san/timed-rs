@@ -14,14 +14,11 @@ pub fn run() {
 }
 
 fn get_time(millisec: i32) -> String {
-    let time: String;
-
-    let timer = TimeDelta::milliseconds(millisec.try_into().unwrap());
+    let timer = TimeDelta::milliseconds(millisec.into());
     let seconds = timer.num_seconds() % 60;
     let min = timer.num_minutes() % 60;
     let hours = timer.num_hours();
     let mil = timer.num_milliseconds() % 100;
 
-    time = format!("{:02}:{:02}:{:02}:{:02}", hours, min, seconds, mil);
-    return time;
+    format!("{:02}:{:02}:{:02}:{:02}", hours, min, seconds, mil)
 }
