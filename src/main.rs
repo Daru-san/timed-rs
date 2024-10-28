@@ -3,61 +3,48 @@ mod commands;
 use commands::{clock, stopwatch, timer};
 
 use clap::Parser;
-use core::f64;
-use std::process::exit;
+use clap::Subcommand;
 
 #[derive(Parser, Debug)]
-#[clap(author = "Daru", version, about)]
-/// Application configuration
+#[command(author, version, about)]
 struct Args {
-    /// whether to be verbose
-    #[arg(short = 'v')]
-    verbose: bool,
+    #[command(subcommand)]
+    command: Option<Commands>,
+}
 
-    /// Use the timer
-    #[arg(short, long, default_value = "0.0")]
-    time: f64,
+#[derive(Subcommand, Debug)]
+enum Commands {
+    /// Clock
+    Clock {
+        /// Time formatting
+        #[clap(short, long, default_value = "%X")]
+        format: String,
+    },
 
-    /// Use the stopwatch
-    #[arg(short, long)]
-    stopwatch: bool,
+    Stopwatch {},
+
+    /// Timer
+    Timer {
+        /// Time to run the timer
+        time: f32,
+    },
 }
 
 fn main() {
     let args = Args::parse();
-    let enable_timer = !(args.time == 0.0);
-    let enable_stopwatch = args.stopwatch;
-    let enable_clock = !enable_timer && !enable_stopwatch;
-    let enable_verbosity = args.verbose;
 
-    if enable_timer && enable_stopwatch {
-        println!("Please select one item");
-        exit(0);
-    }
-
-    if enable_verbosity {
-        if enable_timer {
-            println!("Timer mode");
+    match &args.command {
+        Some(Commands::Clock { format }) => {
+            clock::run(format);
         }
-
-        if enable_stopwatch {
-            println!("Stopwatch mode");
+        Some(Commands::Timer { time }) => {
+            timer::run(*time);
         }
-
-        if enable_clock {
-            println!("Clock mode");
+        Some(Commands::Stopwatch {}) => {
+            stopwatch::run();
         }
-    }
-
-    if enable_timer {
-        timer::run(args.time);
-    }
-
-    if enable_stopwatch {
-        stopwatch::run();
-    }
-
-    if enable_clock {
-        clock::run();
+        None => {
+            clock::run("%X");
+        }
     }
 }
