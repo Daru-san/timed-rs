@@ -28,8 +28,8 @@ enum Commands {
 
     /// Timer
     Timer {
-        /// Time to run the timer
-        time: f32,
+        /// Time to run the timer, must be a positive integer
+        time: u32,
     },
 }
 
