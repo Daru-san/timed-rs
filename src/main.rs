@@ -1,4 +1,5 @@
 mod commands;
+mod time;
 
 use commands::{clock, stopwatch, timer};
 
