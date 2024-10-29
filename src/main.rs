@@ -17,16 +17,17 @@ struct Args {
 
 #[derive(Subcommand, Debug)]
 enum Commands {
-    /// Clock
+    /// Display a clock with formatting
     Clock {
         /// Time formatting
         #[clap(short, long, default_value = "%X")]
         format: String,
     },
 
+    /// Run the stopwatch
     Stopwatch {},
 
-    /// Timer
+    /// Run a timer
     Timer {
         /// Time to run the timer, must be a positive integer
         time: u32,
