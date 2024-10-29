@@ -1,34 +1,32 @@
-use chrono::{self, NaiveTime};
-use std::{
-    thread::sleep,
-    time::{Duration, Instant},
-};
+use crate::time;
+use std::{thread::sleep, time::Duration};
 
-pub fn run(time: f32) {
-    let now = Instant::now();
-
-    let mut time_left = (time * 1000.0) as f64;
-    let mut time_fmt;
-    loop {
-        time_left -= 1.0;
-
-        sleep(Duration::from_millis(1));
-
-        time_fmt = get_time(time_left);
-
-        print!("\r{}", time_left);
-        if time_left == 0.0 {
-            break;
-        }
-    }
+#[derive(Debug)]
+struct Timer {
+    time_ms: u32,
 }
 
-fn get_time(millisec: f64) -> String {
-    let milliseconds = millisec.floor() as u32;
-    let seconds = (milliseconds / 1000) % 60;
-    let min = (milliseconds / 3600) % 60;
-    let hours = seconds / 3600;
+impl Timer {
+    fn new(time_in_ms: u32) {
+        Timer {
+            time_ms: time_in_ms,
+        };
+    }
+    fn run(&self) {
+        let time_ms = self.time_ms;
+        let mut time_left = time_ms;
+        let mut time_fmt;
+        loop {
+            time_left -= 1;
 
-    let timer = NaiveTime::from_hms_milli_opt(hours, min, seconds, milliseconds);
-    timer.unwrap().to_string()
+            sleep(Duration::from_millis(1));
+
+            time_fmt = time::get_time(time_left);
+
+            print!("\r{}", time_fmt);
+            if time_left == 0 {
+                break;
+            }
+        }
+    }
 }
