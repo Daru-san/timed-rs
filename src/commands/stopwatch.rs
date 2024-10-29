@@ -6,13 +6,13 @@ use std::{
 };
 
 #[derive(Debug)]
-struct Stopwatch();
+pub struct Stopwatch;
 
 impl Stopwatch {
-    fn new() {
-        Stopwatch;
+    pub fn new() -> Self {
+        Stopwatch
     }
-    fn run() {
+    pub fn run(&self) {
         let now = Instant::now();
         loop {
             let time = time::get_time(now.elapsed().as_millis().try_into().unwrap());
