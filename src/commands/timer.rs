@@ -2,17 +2,17 @@ use crate::time;
 use std::{thread::sleep, time::Duration};
 
 #[derive(Debug)]
-struct Timer {
-    time_ms: u32,
+pub struct Timer {
+    pub time_ms: u32,
 }
 
 impl Timer {
-    fn new(time_in_ms: u32) {
+    pub fn new(time_in_ms: u32) -> Self {
         Timer {
             time_ms: time_in_ms,
-        };
+        }
     }
-    fn run(&self) {
+    pub fn run(&self) {
         let time_ms = self.time_ms;
         let mut time_left = time_ms;
         let mut time_fmt;
