@@ -1,7 +1,9 @@
 mod commands;
 mod time;
 
-use commands::{clock, stopwatch, timer};
+use commands::clock::Clock;
+use commands::stopwatch::Stopwatch;
+use commands::timer::Timer;
 
 use clap::Parser;
 use clap::Subcommand;
@@ -36,16 +38,22 @@ fn main() {
 
     match &args.command {
         Some(Commands::Clock { format }) => {
-            clock::run(format);
+            let clock = Clock::new(format.clone());
+            clock.run();
         }
         Some(Commands::Timer { time }) => {
-            timer::run(*time);
+            let timer = Timer::new(*time);
+            timer.run();
         }
         Some(Commands::Stopwatch {}) => {
-            stopwatch::run();
+            let stopwatch = Stopwatch::new();
+            stopwatch.run();
         }
+
+        // Run clock when no parameters are selected
         None => {
-            clock::run("%X");
+            let clock = Clock::new("%X".to_string());
+            clock.run();
         }
     }
 }
