@@ -2,17 +2,18 @@ use chrono::{prelude::*, DateTime};
 use std::{thread::sleep, time::Duration};
 
 #[derive(Debug)]
-struct Clock {
-    format: String,
+pub struct Clock {
+    pub format: String,
 }
 
 impl Clock {
-    fn new(clock_format: String) {
+    pub fn new(clock_format: String) -> Self {
         Clock {
             format: clock_format,
-        };
+        }
     }
-    fn run(&self) {
+
+    pub fn run(&self) {
         let format = &self.format;
         loop {
             let local: DateTime<Local> = Local::now();
