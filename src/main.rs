@@ -56,7 +56,7 @@ fn main() {
         }
 
         Some(Commands::Tui {}) => {
-            tui::tui::draw_terminal();
+            let _ = tui::tui::draw_terminal();
         }
 
         // Run clock when no parameters are selected
