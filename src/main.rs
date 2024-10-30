@@ -1,5 +1,6 @@
 mod commands;
 mod time;
+mod tui;
 
 use commands::clock::Clock;
 use commands::stopwatch::Stopwatch;
@@ -32,6 +33,9 @@ enum Commands {
         /// Time to run the timer, must be a positive integer
         time: u32,
     },
+
+    /// Show the TUI interface
+    Tui {},
 }
 
 fn main() {
@@ -49,6 +53,10 @@ fn main() {
         Some(Commands::Stopwatch {}) => {
             let stopwatch = Stopwatch::new();
             stopwatch.run();
+        }
+
+        Some(Commands::Tui {}) => {
+            tui::tui::draw_terminal();
         }
 
         // Run clock when no parameters are selected
